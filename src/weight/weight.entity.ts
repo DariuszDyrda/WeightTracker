@@ -1,12 +1,15 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn, ManyToOne } from "typeorm";
 import { User } from '../auth/user.entity'
+import { WeightUnits } from './weightUnits.enum';
 
 @Entity()
 export class Weight extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: string;
     @Column()
-    measurement: number;
+    amount: number;
+    @Column()
+    unit: WeightUnits;
     @UpdateDateColumn()
     date: Date;
 
