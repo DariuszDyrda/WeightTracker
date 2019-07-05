@@ -27,9 +27,11 @@ export class WeightService {
         }
 
         const weights = await query.getMany();
-        weights.forEach(element => {
-            element.convertTo(unit);
-        });
+        if (unit) {
+            weights.forEach(element => {
+                element.convertTo(unit);
+            });
+        }
         return weights;
     }
 
@@ -44,4 +46,5 @@ export class WeightService {
 
         return await measurement.save();
     }
+
 }
