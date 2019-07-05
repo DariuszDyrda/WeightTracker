@@ -6,6 +6,7 @@ import { User } from './user.entity';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JWT_SECRET } from '../config/config.env';
+import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
@@ -20,7 +21,11 @@ import { JWT_SECRET } from '../config/config.env';
     }),
     TypeOrmModule.forFeature([User]),
   ],
-  providers: [AuthService],
-  controllers: [AuthController]
+  providers: [AuthService, JwtStrategy],
+  controllers: [AuthController],
+  exports: [
+    JwtStrategy,
+    PassportModule,
+  ],
 })
 export class AuthModule {}

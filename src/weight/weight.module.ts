@@ -3,9 +3,13 @@ import { WeightService } from './weight.service';
 import { WeightController } from './weight.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Weight } from './weight.entity';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Weight])],
+    imports: [
+        TypeOrmModule.forFeature([Weight]),
+        AuthModule,
+    ],
     providers: [WeightService],
     controllers: [WeightController],
 })
