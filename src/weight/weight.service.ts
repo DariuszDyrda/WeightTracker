@@ -44,7 +44,11 @@ export class WeightService {
         measurement.unit = unit;
         measurement.user = user;
 
-        return await measurement.save();
+        await measurement.save();
+
+        delete measurement.user;
+
+        return measurement;
     }
 
     async editMeasurement(weightDto: WeightDto, id: number, user: User): Promise<Weight> {
