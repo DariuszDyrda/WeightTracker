@@ -6,7 +6,7 @@ import { WeightUnits } from './weightUnits.enum';
 export class Weight extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: string;
-    @Column()
+    @Column({ type: 'float' })
     amount: number;
     @Column()
     unit: WeightUnits;

@@ -4,6 +4,7 @@ import { WeightController } from './weight.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Weight } from './weight.entity';
 import { AuthModule } from '../auth/auth.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
     imports: [

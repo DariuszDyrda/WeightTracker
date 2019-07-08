@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Weight } from './weight.entity';
 import { Repository } from 'typeorm';
@@ -47,4 +47,24 @@ export class WeightService {
         return await measurement.save();
     }
 
+    async editMeasurement(weightDto: WeightDto, id: number, user: User): Promise<Weight> {
+        const { amount, unit } = weightDto;
+        const weight = await this.weightRepository.findOne({ where: { id, userId: user.id } });
+        if (amount) {
+            weight.amount = amount;
+        }
+        if (unit) {
+            weight.unit = unit;
+        }
+        return weight.save();
+    }
+
+    async deleteTaskById(id: number, user: User): Promise<Weight> {
+        const weight = await this.weightRepository.findOne({ where: { id, userId: user.id } });
+        if (!weight) {
+            throw new NotFoundException(`Task with id: ${id} is not in the database`);
+        } else {
+            return await this.weightRepository.remove(weight);
+        }
+    }
 }
