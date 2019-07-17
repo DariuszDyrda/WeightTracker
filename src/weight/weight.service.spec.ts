@@ -5,12 +5,16 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Weight } from './weight.entity';
 import { Repository } from 'typeorm';
 import { O_TRUNC } from 'constants';
+import { WeightUnits } from './weightUnits.enum';
+import { NotFoundException } from '@nestjs/common';
 
 const mockUser = { username: 'TestUser' };
 
 const mockRepository = () => ({
-
+    findOne: jest.fn(),
 });
+
+const fakeUser = { username: 'TestUser' };
 
 describe('Weight service', () => {
     let weightService;
@@ -30,9 +34,60 @@ describe('Weight service', () => {
         weightService = module.get<WeightService>(WeightService);
     });
 
-    describe('get measurements', () => {
-        it('get all measurements', () => {
-            expect(true).not.toBe(false);
-        })
-    })
-})
+    describe('add measurement', () => {
+        const addDto = {
+            amount: 34.4,
+            unit: WeightUnits.kilograms,
+        };
+
+        let save;
+
+        beforeEach(() => {
+            save = jest.fn();
+            weightRepository.create = jest.fn().mockReturnValue({ save });
+        });
+
+        it('adds measurement correctly and returns without user property', async () => {
+            expect(weightRepository.create).not.toHaveBeenCalled();
+            const result = await weightService.addMeasurement(addDto, fakeUser);
+            expect(save).toHaveBeenCalled();
+            expect(result).toHaveProperty('amount');
+            expect(result).toHaveProperty('unit');
+            expect(result).not.toHaveProperty('user');
+        });
+    });
+
+    describe('edit measurement', () => {
+        const editDto = {
+            amount: 47.3,
+            unit: WeightUnits.kilograms,
+        };
+
+        const addDto = {
+            amount: 56.8,
+            unit: WeightUnits.pounds,
+        }
+
+        let save;
+
+        beforeEach(() => {
+            save = jest.fn();
+            weightRepository.create = jest.fn().mockReturnValue({ save });
+        });
+
+        it('edits measurement correctly', async () => {
+            const addResult = { ...addDto, save };
+            weightRepository.findOne.mockResolvedValue({ ...addResult });
+            expect(weightRepository.findOne).not.toHaveBeenCalled();
+            const editResult = await weightService.editMeasurement(editDto, 12, fakeUser);
+            expect(editResult).not.toMatchObject(addResult);
+            expect(editResult.amount).toBeCloseTo(47.3);
+            expect(editResult.unit).toBe('kilograms');
+        });
+        it('throws NotFoundException when id not found', async () => {
+            weightRepository.findOne.mockRejectedValue(undefined);
+            expect(weightRepository.findOne).not.toHaveBeenCalled();
+            expect(weightService.editMeasurement(editDto, 12, fakeUser)).rejects.toThrow(NotFoundException);
+        });
+    });
+});

@@ -39,7 +39,7 @@ export class WeightService {
         const amount = weightDto.amount;
         const unit = weightDto.unit || DEFAULT_UNIT;
 
-        const measurement = new Weight();
+        const measurement = this.weightRepository.create();
         measurement.amount = amount;
         measurement.unit = unit;
         measurement.user = user;
@@ -60,7 +60,8 @@ export class WeightService {
         if (unit) {
             weight.unit = unit;
         }
-        return weight.save();
+        weight.save();
+        return weight;
     }
 
     async deleteTaskById(id: number, user: User): Promise<Weight> {

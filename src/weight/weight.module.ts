@@ -10,6 +10,7 @@ import { PassportModule } from '@nestjs/passport';
     imports: [
         TypeOrmModule.forFeature([Weight]),
         AuthModule,
+        PassportModule,
     ],
     providers: [WeightService],
     controllers: [WeightController],
