@@ -8,10 +8,9 @@ import { O_TRUNC } from 'constants';
 import { WeightUnits } from './weightUnits.enum';
 import { NotFoundException } from '@nestjs/common';
 
-const mockUser = { username: 'TestUser' };
-
 const mockRepository = () => ({
     findOne: jest.fn(),
+    remove: jest.fn(),
 });
 
 const fakeUser = { username: 'TestUser' };
@@ -84,10 +83,30 @@ describe('Weight service', () => {
             expect(editResult.amount).toBeCloseTo(47.3);
             expect(editResult.unit).toBe('kilograms');
         });
-        it('throws NotFoundException when id not found', async () => {
+        it('throws NotFoundException when id not found', () => {
             weightRepository.findOne.mockRejectedValue(undefined);
             expect(weightRepository.findOne).not.toHaveBeenCalled();
             expect(weightService.editMeasurement(editDto, 12, fakeUser)).rejects.toThrow(NotFoundException);
+        });
+    });
+    describe('delete measurement', () => {
+        const weight = {
+            amount: 45.9,
+            unit: WeightUnits.kilograms,
+            user: fakeUser,
+        }
+
+        it('correctly removes entity from db', () => {
+            weightRepository.findOne.mockResolvedValue(weight);
+            weightRepository.remove.mockResolvedValue(weight);
+            expect(weightService.deleteTaskById(12, fakeUser)).resolves.toMatchObject(weight);
+        });
+
+        it('throws NotFoundException while given id is not in db', () => {
+            weightRepository.findOne.mockResolvedValue(undefined);
+            weightRepository.remove.mockResolvedValue(weight);
+
+            expect(weightService.deleteTaskById(12, fakeUser)).rejects.toThrow(NotFoundException);
         });
     });
 });
