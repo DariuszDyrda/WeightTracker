@@ -22,7 +22,7 @@ export class WeightService {
         if (dateFrom) {
             query.andWhere('weight.date >= :dateFrom', { dateFrom });
         }
-        if(dateTo) {
+        if (dateTo) {
             query.andWhere('weight.date < :dateTo', { dateTo });
         }
 
