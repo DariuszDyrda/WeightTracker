@@ -11,6 +11,7 @@ import { NotFoundException } from '@nestjs/common';
 const mockRepository = () => ({
     findOne: jest.fn(),
     remove: jest.fn(),
+    createQueryBuilder: jest.fn(),
 });
 
 const fakeUser = { username: 'TestUser' };
@@ -109,4 +110,39 @@ describe('Weight service', () => {
             expect(weightService.deleteTaskById(12, fakeUser)).rejects.toThrow(NotFoundException);
         });
     });
+    describe('get measurements', () => {
+        const filterDto = {
+            dateFrom: new Date('December 17, 2018 03:24:00'),
+            dateTo: new Date('December 19, 2018 03:24:00'),
+            unit: WeightUnits.pounds,
+        };
+
+        let where;
+        let andWhere;
+        let getMany;
+
+        beforeEach(() => {
+            where = jest.fn();
+            andWhere = jest.fn();
+            getMany = jest.fn();
+            weightRepository.createQueryBuilder.mockReturnValue({ where, andWhere, getMany });
+        })
+
+        it('gets all tasks', () => {
+            getMany.mockResolvedValue('dumb data');
+            expect(weightService.getMeasurements({}, fakeUser)).resolves.toBe('dumb data');
+        });
+        it('applies data filters', () => {
+            getMany.mockResolvedValue([{ amount: 56.7, unit: WeightUnits.pounds }]);
+            expect(weightService.getMeasurements(filterDto, fakeUser)).resolves.toMatchObject([{ unit: WeightUnits.kilograms }]);
+            expect(where).toHaveBeenCalled();
+            expect(andWhere).toHaveBeenCalledTimes(2);
+        });
+        it('returns empty array when filters dont match', () => {
+            getMany.mockResolvedValue([]);
+            expect(weightService.getMeasurements(filterDto, fakeUser)).resolves.toBe([]);
+            expect(where).toHaveBeenCalled();
+            expect(andWhere).toHaveBeenCalledTimes(2);
+        })
+    })
 });
