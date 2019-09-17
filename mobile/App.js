@@ -7,6 +7,12 @@ import DrawerComponent from './src/components/DrawerComponent';
 import LoginScreen from './src/screens/LoginScreen';
 import SignInScreen from './src/screens/SigninScreen';
 
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import reducers from './src/reducers/index'
+
+const store = createStore(reducers);
+
 const DrawerNavigator = createDrawerNavigator({
   Home: HomeScreen,
 }, {
@@ -36,6 +42,8 @@ const AppNavContainer = createAppContainer(MainNav);
 
 export default function App() {
   return (
-    <AppNavContainer />
+    <Provider store={store}>
+      <AppNavContainer />
+    </Provider>
   );
 }

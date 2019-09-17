@@ -6,8 +6,11 @@ import imageLogo from "../assets/images/logo.png";
 import colors from "../consts/colors";
 import { strings } from '../consts/strings';
 import { StackActions, NavigationActions } from 'react-navigation';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { login } from '../actions/authActions'
 
-export default function LoginScreen(props) {
+function LoginScreen(props) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
@@ -25,6 +28,7 @@ export default function LoginScreen(props) {
     }
 
     handleLoginPress = () => {
+        props.login(username, password);
         props.navigation.dispatch(resetAction);
     }
 
@@ -56,6 +60,20 @@ export default function LoginScreen(props) {
     )
 }
 
+const mapStateToProps = (state) => {
+  const { user } = state;
+  return { user };
+}
+
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({
+    login,
+  }, dispatch)
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+
+// STYLES
 const styles = StyleSheet.create({
     container: {
       flex: 1,
