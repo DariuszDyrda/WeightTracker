@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button } from 'react-native';
+import { View, Image, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import Button from "../components/Button";
+import FormTextInput from "../components/FormTextInput";
+import imageLogo from "../assets/images/logo.png";
+import colors from "../consts/colors";
 import { strings } from '../consts/strings';
 import { StackActions, NavigationActions } from 'react-navigation';
 
@@ -20,34 +24,54 @@ export default function LoginScreen(props) {
         setPassword(password);
     }
 
-    handleButtonPress = () => {
+    handleLoginPress = () => {
         props.navigation.dispatch(resetAction);
     }
 
     return (
-        <View>
-            <View>
-                <TextInput
-                    value={username}
-                    onChangeText={this.handleUsernameChange}
-                    placeholder={strings.USERNAME_PLACEHOLDER}
-                />
-                <TextInput
-                    value={password}
-                    onChangeText={this.handlePasswordChange}
-                    placeholder={strings.PASSWORD_PLACEHOLDER}
-                />
-                <Button
-                    onPress={this.handleButtonPress}
-                    title={"Log in"}
-                />
-            </View>
-            <View>
-                <Button
-                    title={'Create new account'}
-                    onPress={()=> props.navigation.navigate('SignIn')}
-                />
-            </View>
+        <KeyboardAvoidingView style={styles.container} behavior="padding">
+        <Image source={imageLogo} style={styles.logo} />
+        <View style={styles.form}>
+          <FormTextInput
+            value={username}
+            onChangeText={this.handleUsernameChange}
+            placeholder={strings.USERNAME_PLACEHOLDER}
+          />
+          <FormTextInput
+            value={password}
+            onChangeText={this.handlePasswordChange}
+            placeholder={strings.PASSWORD_PLACEHOLDER}
+            secureTextEntry={true}
+          />
+          <Button
+            label={strings.LOGIN}
+            onPress={this.handleLoginPress}
+          />
+          <Button
+            label={strings.CREATE_NEW_ACCOUNT}
+            onPress={() => props.navigation.navigate('SignIn')}
+          />
         </View>
+      </KeyboardAvoidingView>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.WHITE,
+      alignItems: "center",
+      justifyContent: "space-between"
+    },
+    logo: {
+      flex: 1,
+      width: "100%",
+      resizeMode: "contain",
+      alignSelf: "center"
+    },
+    form: {
+      flex: 1,
+      justifyContent: "center",
+      width: "80%"
+    }
+  });
