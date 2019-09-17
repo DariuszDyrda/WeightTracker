@@ -1,19 +1,19 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { createAppContainer } from 'react-navigation';
+import { createDrawerNavigator, DrawerNavigatorItems } from 'react-navigation-drawer';
+import HomeScreen from './src/screens/HomeScreen';
+import DrawerComponent from './src/components/DrawerComponent';
+
+const DrawerNavigator = createDrawerNavigator({
+  Home: HomeScreen,
+}, {
+  contentComponent: DrawerComponent,
+})
+
+const AppNavContainer = createAppContainer(DrawerNavigator);
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
+    <AppNavContainer />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
