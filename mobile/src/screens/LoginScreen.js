@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Image, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Image, StyleSheet, KeyboardAvoidingView, ActivityIndicator, ToastAndroid } from 'react-native';
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
 import imageLogo from "../assets/images/logo.png";
@@ -9,15 +9,29 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { login } from '../actions/authActions'
+import { clearMessages } from '../actions/commonActions';
 
-function LoginScreen(props) {
+const LoginScreen = (props) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
     const resetAction = StackActions.reset({
         index: 0,
         actions: [NavigationActions.navigate({ routeName: 'DrawerNav' })],
-      });
+    });
+
+    useEffect(() => {
+      if(props.isLogged) {
+        props.navigation.dispatch(resetAction);
+      }
+      if(props.isLoading) {
+        return (<ActivityIndicator size="large" color="#0000ff" />)
+      }
+      if(props.message) {
+        ToastAndroid.show(props.message, ToastAndroid.SHORT);
+        props.clearMessages();
+      }
+    })
 
     handleUsernameChange = (username) => {
         setUsername(username);
@@ -28,9 +42,9 @@ function LoginScreen(props) {
     }
 
     handleLoginPress = () => {
-        props.login(username, password);
-        props.navigation.dispatch(resetAction);
+        props.login({ username, password });
     }
+
 
     return (
         <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -61,13 +75,15 @@ function LoginScreen(props) {
 }
 
 const mapStateToProps = (state) => {
-  const { user } = state;
-  return { user };
+  const { isLogged } = state.auth;
+  const { isLoading, message } = state.common;
+  return { isLogged, isLoading, message };
 }
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
     login,
+    clearMessages,
   }, dispatch)
 )
 

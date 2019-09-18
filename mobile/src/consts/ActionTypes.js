@@ -1,3 +1,7 @@
 export default ActionTypes = {
     LOGIN: "LOGIN",
+    LOADING: "LOADING",
+    LOGIN_ERROR: "LOGIN_ERROR",
+    CONNECTION_ERROR: "CONNECTION_ERROR",
+    CLEAR_MESSAGES: "CLEAR_MESSAGES",
 }

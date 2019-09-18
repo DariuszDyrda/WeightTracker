@@ -4,5 +4,6 @@ export const strings = {
     CONFIRM_PASSWORD_PLACEHOLDER: "Confirm password",
     LOGIN: "LOGIN",
     SIGNIN: "SIGN IN",
-    CREATE_NEW_ACCOUNT: "Create new account"
+    CREATE_NEW_ACCOUNT: "Create new account",
+    CONNECTION_ERROR_MESSAGE: "Connection error. Check your internet connection"
 }
