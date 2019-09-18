@@ -18,6 +18,7 @@ export class WeightController {
         @Body(ValidationPipe) filterDto: FilterDto,
         @GetUser() user: User,
     ): Promise<Weight[]> {
+        console.log("GET weight")
         return this.weightService.getMeasurements(filterDto, user);
     }
 

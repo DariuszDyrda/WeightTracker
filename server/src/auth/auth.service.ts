@@ -32,12 +32,12 @@ export class AuthService {
         }
     }
 
-    async signIn(authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string }> {
+    async signIn(authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string, username: string }> {
         const username = await this.validateUserPassword(authCredentialsDto);
         const payload: JwtPayload = { username };
         const accessToken = this.jwtService.sign(payload);
 
-        return { accessToken };
+        return { accessToken, username };
     }
 
     private async hashPassword(password: string, salt: string): Promise<string> {

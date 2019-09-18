@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Post, Body, UsePipes, ValidationPipe, Get } from '@nestjs/common';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { AuthService } from './auth.service';
 
@@ -14,7 +14,14 @@ export class AuthController {
     }
 
     @Post('/signin')
-    signIn(@Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string }> {
+    signIn(@Body() authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string, username: string }> {
         return this.authService.signIn(authCredentialsDto);
+    }
+
+    //Example GET route
+    @Get('/example')
+    example() {
+        console.log("Req to Example route")
+        return {message: "This is an example GET route"};
     }
 }
