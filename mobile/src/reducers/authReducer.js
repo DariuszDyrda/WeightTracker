@@ -14,6 +14,12 @@ export const authReducer = (state = INITIAL_STATE, action) => {
             const isLogged = true;
             return { ...state, user, accessToken, isLogged }
         }
+        case ActionTypes.LOGOUT: {
+            const user = null;
+            const accessToken = null;
+            const isLogged = false;
+            return { ...state, user, accessToken, isLogged }
+        }
         default:
             return state;
     }
