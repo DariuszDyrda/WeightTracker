@@ -1,8 +1,9 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, OneToMany, Unique } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Weight } from '../weight/weight.entity';
 
 @Entity()
+@Unique(["username"])
 export class User extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: string;
