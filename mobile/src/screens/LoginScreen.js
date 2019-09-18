@@ -67,7 +67,7 @@ const LoginScreen = (props) => {
           />
           <Button
             label={strings.CREATE_NEW_ACCOUNT}
-            onPress={() => props.navigation.navigate('SignIn')}
+            onPress={() => props.navigation.navigate('SignUp')}
           />
         </View>
       </KeyboardAvoidingView>

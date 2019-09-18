@@ -8,11 +8,12 @@ const INITIAL_STATE = {
 
 export const authReducer = (state = INITIAL_STATE, action) => {
     switch(action.type) {
-        case ActionTypes.LOGIN:
+        case ActionTypes.LOGIN: {
             const user = action.payload.username;
             const accessToken = action.payload.accessToken
             const isLogged = true;
             return { ...state, user, accessToken, isLogged }
+        }
         default:
             return state;
     }

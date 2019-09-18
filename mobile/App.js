@@ -5,7 +5,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import HomeScreen from './src/screens/HomeScreen';
 import DrawerComponent from './src/components/DrawerComponent';
 import LoginScreen from './src/screens/LoginScreen';
-import SignInScreen from './src/screens/SigninScreen';
+import SignUpScreen from './src/screens/SignUpScreen';
 
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
@@ -27,7 +27,7 @@ const DrawerNavigation = createStackNavigator({
 
 const LoginNavigation = createStackNavigator({
   Login: LoginScreen,
-  SignIn: SignInScreen,
+  SignUp: SignUpScreen,
 }, {
   headerMode: 'none',
 })

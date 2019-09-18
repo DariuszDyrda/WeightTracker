@@ -1,21 +1,31 @@
-import React, { useState } from 'react';
-import { View, Image, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Image, StyleSheet, KeyboardAvoidingView, ToastAndroid } from 'react-native';
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
 import imageLogo from "../assets/images/signin.png";
 import colors from "../consts/colors";
 import { strings } from '../consts/strings';
-import { StackActions, NavigationActions } from 'react-navigation';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { signup } from '../actions/authActions'
+import { clearMessages } from '../actions/commonActions';
 
-export default function SignInScreen(props) {
+const SignUpScreen = (props) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-
-    const resetAction = StackActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({ routeName: 'DrawerNav' })],
-      });
+    useEffect(() => {
+      if(props.message) {
+        ToastAndroid.show(props.message, ToastAndroid.SHORT);
+        props.clearMessages();
+      }
+      if(props.isSignUpSuccessful) {
+        props.navigation.navigate("Login");
+      }
+      if(props.isLoading) {
+        return (<ActivityIndicator size="large" color="#0000ff" />)
+      }
+    })
 
     handleUsernameChange = (username) => {
         setUsername(username);
@@ -30,7 +40,11 @@ export default function SignInScreen(props) {
     }
 
     handleButtonPress = () => {
-        props.navigation.dispatch(resetAction);
+      if(password == confirmPassword) {
+        props.signup({ username, password });
+      } else {
+        ToastAndroid.show(strings.PASSWORDS_DONT_MATCH_ERROR, ToastAndroid.SHORT);
+      }
     }
 
     return (
@@ -55,7 +69,7 @@ export default function SignInScreen(props) {
             secureTextEntry={true}
           />
           <Button
-            label={strings.SIGNIN}
+            label={strings.SIGNUP}
             onPress={this.handleButtonPress}
           />
         </View>
@@ -63,6 +77,21 @@ export default function SignInScreen(props) {
     )
 }
 
+const mapStateToProps = (state) => {
+  const { isSignUpSuccessful, isLoading, message } = state.common;
+  return { isLoading, message, isSignUpSuccessful };
+}
+
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({
+    signup,
+    clearMessages,
+  }, dispatch)
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpScreen)
+
+//STYLES
 const styles = StyleSheet.create({
     container: {
       flex: 1,

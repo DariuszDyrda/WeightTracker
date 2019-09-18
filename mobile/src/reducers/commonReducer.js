@@ -3,6 +3,7 @@ import { strings } from '../consts/strings';
 
 const INITIAL_STATE = {
     isLoading: false,
+    isSignUpSuccessful: false,
     message: null,
 }
 
@@ -17,6 +18,15 @@ export const commonReducer = (state = INITIAL_STATE, action) => {
             return { ...state, message };
         }
         case ActionTypes.LOGIN_ERROR: {
+            const message = action.payload
+            return { ...state, message };
+        }
+        case ActionTypes.SIGNUP: {
+            const message = strings.SIGNUP_SUCCESS;
+            const isSignUpSuccessful = true;
+            return { ...state, message, isSignUpSuccessful };
+        }
+        case ActionTypes.SIGNUP_ERROR: {
             const message = action.payload
             return { ...state, message };
         }
