@@ -5,12 +5,14 @@
 //   ? manifest.debuggerHost.split(`:`).shift().concat(`:3000`)
 //   : `localhost`;
 
-const links = {
-    apiBaseUrl: 'http://10.0.0.108:3000/',
-    login: 'auth/signin',
-    signup: 'auth/signup'
+const apiBaseUrl = 'http://10.0.0.107:3000/';
+
+export const API_LINKS = {
+    LOGIN: 'auth/signin',
+    SIGNUP: 'auth/signup',
+    GET_WEIGHTS: 'weight',
 }
 
-export const getApiLinkTo = (route) => {
-    return links.apiBaseUrl + links[route];
-}
+Object.keys(API_LINKS).forEach(key => {
+    API_LINKS[key] = apiBaseUrl + API_LINKS[key];
+})

@@ -1,10 +1,10 @@
 import ActionTypes from '../consts/ActionTypes';
-import { getApiLinkTo } from '../config/api';
+import { API_LINKS } from '../config/api';
 import axios from 'axios';
 
 export const login = payloads => dispatch => {
     dispatch({ type: ActionTypes.LOADING, isLoading: true });
-    axios.post(getApiLinkTo('login'), payloads)
+    axios.post(API_LINKS.LOGIN, payloads)
     .then(res => {
       dispatch({ type: ActionTypes.LOADING, isLoading: false });
         if(res.status == 201){
@@ -24,7 +24,7 @@ export const login = payloads => dispatch => {
 
 export const signup = payloads => dispatch => {
   dispatch({ type: ActionTypes.LOADING, isLoading: true });
-  axios.post(getApiLinkTo('signup'), payloads)
+  axios.post(API_LINKS.SIGNUP, payloads)
   .then(res => {
     dispatch({ type: ActionTypes.LOADING, isLoading: false });
       if(res.status == 201){
