@@ -12,7 +12,7 @@ export class WeightDto {
     @IsIn(UNITS)
     unit: WeightUnits;
 
-    @IsString()
+    @IsNotEmpty()
     @IsISO8601()
-    date: string;
+    date: Date;
 }

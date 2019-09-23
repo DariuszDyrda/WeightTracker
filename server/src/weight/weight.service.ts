@@ -38,11 +38,13 @@ export class WeightService {
     async addMeasurement(weightDto: WeightDto, user: User): Promise<Weight> {
         const amount = weightDto.amount;
         const unit = weightDto.unit || DEFAULT_UNIT;
+        const date = weightDto.date;
 
         const measurement = this.weightRepository.create();
         measurement.amount = amount;
         measurement.unit = unit;
         measurement.user = user;
+        measurement.date = date;
 
         await measurement.save();
 

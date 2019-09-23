@@ -1,5 +1,5 @@
 import { WeightUnits } from "../weightUnits.enum";
-import { IsNumber, IsNotEmpty, IsIn, IsOptional, IsNumberString, IsDateString } from 'class-validator';
+import { IsNumber, IsNotEmpty, IsIn, IsOptional, IsNumberString, IsDateString, IsISO8601 } from 'class-validator';
 
 const UNITS = Object.values(WeightUnits);
 
@@ -13,6 +13,6 @@ export class WeightPutDto {
     unit: WeightUnits;
 
     @IsOptional()
-    @IsDateString()
-    date: string;
+    @IsISO8601()
+    date: Date;
 }
