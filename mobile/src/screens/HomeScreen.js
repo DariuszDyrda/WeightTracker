@@ -12,20 +12,6 @@ function HomeScreen(props) {
   useEffect(() => {
     props.getWeights(props.accessToken);
   }, []);
-  useEffect(() => {
-    if(props.weights && props.weights.length > 0) {
-      props.weights.map(obj => {
-        labels.push(obj.date);
-        data.push(obj.amount);
-        return;
-      }) 
-      labels = labels.map(label => {
-        return label.slice(0, 3);
-      })
-      console.log(labels)
-      console.log(data)
-    }
-  }, [props.weights])
 
   if(props.weights) {
     return (

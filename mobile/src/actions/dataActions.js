@@ -25,7 +25,7 @@ export const getWeights = token => dispatch => {
 
 export const addWeight = payload => dispatch => {
     dispatch({ type: ActionTypes.LOADING, isLoading: true });
-    axios.post(API_LINKS.POST_WEIGHT, { amount: payload.weight, unit: payload.unit }, {
+    axios.post(API_LINKS.POST_WEIGHT, { amount: payload.weight, unit: payload.unit, date: payload.date }, {
         headers: {
             "Authorization": `Bearer ${payload.token}`,
         }
@@ -33,6 +33,7 @@ export const addWeight = payload => dispatch => {
     .then(res => {
         dispatch({ type: ActionTypes.LOADING, isLoading: false });
         if(res.status == 201) {
+            console.log(res.data);
             dispatch({ type: ActionTypes.MESSAGE, payload: strings.ADD_WEIGHT_SUCCESS });
         } else {
             throw new Error("Connection error");
