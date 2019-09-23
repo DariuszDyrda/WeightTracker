@@ -11,7 +11,7 @@ export class Weight extends BaseEntity {
     @Column()
     unit: WeightUnits;
     @UpdateDateColumn()
-    date: Date;
+    createDate: Date;
 
     @ManyToOne(type => User, user => user.measurements, { eager: false })
     user: User;
