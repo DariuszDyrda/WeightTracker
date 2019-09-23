@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
-import { View, Picker } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import ActionTypes from '../consts/ActionTypes';
+import { useDispatch, useSelector } from 'react-redux';
+import { View, Picker, ToastAndroid, Keyboard } from 'react-native';
 import FormTextInput from './FormTextInput';
 import Button from './Button';
 import DatePicker from 'react-native-datepicker'
+import { addWeight } from '../actions/dataActions';
 
 export default WeightAddForm = (props) => {
   const getCurrentDate = () => {
@@ -10,15 +13,34 @@ export default WeightAddForm = (props) => {
     return (dt.getFullYear() + "-" + (dt.getMonth() + 1) + "-" + dt.getDate());
   }
 
+  const token = useSelector(state => state.auth.accessToken);
+  const message = useSelector(state => state.common.message);
   const now = getCurrentDate();
+  const [weight, setWeight] = useState(null);
   const [date, setDate] = useState(now);
   const [unit, setUnit] = useState('kilograms');
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if(message) {
+      ToastAndroid.show(message, ToastAndroid.SHORT);
+      dispatch({ type: ActionTypes.CLEAR_MESSAGES });
+
+    }
+  })
+
+  const handleAddButtonPress = () => {
+    dispatch(addWeight({token, weight, unit, date}));
+    setWeight(null);
+    Keyboard.dismiss();
+  }
 
 
     return (
       <View>
         <View>
-          <FormTextInput keyboardType={"number-pad"} />
+          <FormTextInput keyboardType={"number-pad"} value={weight} onChangeText={(text) => setWeight(text)}/>
           <Picker
             selectedValue={unit}
             style={{height: 50}}
@@ -52,7 +74,7 @@ export default WeightAddForm = (props) => {
           }}
           onDateChange={(date) => {setDate(date)}}
         />
-        <Button label={"Add"} onPress={() => console.log("click")}/>
+        <Button label={"Add"} onPress={handleAddButtonPress}/>
       </View>
     )
 }

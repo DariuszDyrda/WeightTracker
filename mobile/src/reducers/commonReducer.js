@@ -17,7 +17,7 @@ export const commonReducer = (state = INITIAL_STATE, action) => {
             const message = strings.CONNECTION_ERROR_MESSAGE;
             return { ...state, message };
         }
-        case ActionTypes.LOGIN_ERROR: {
+        case ActionTypes.MESSAGE: {
             const message = action.payload
             return { ...state, message };
         }
@@ -25,10 +25,6 @@ export const commonReducer = (state = INITIAL_STATE, action) => {
             const message = strings.SIGNUP_SUCCESS;
             const isSignUpSuccessful = true;
             return { ...state, message, isSignUpSuccessful };
-        }
-        case ActionTypes.SIGNUP_ERROR: {
-            const message = action.payload
-            return { ...state, message };
         }
         case ActionTypes.CLEAR_MESSAGES: {
             const message = null;

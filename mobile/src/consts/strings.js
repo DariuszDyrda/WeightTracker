@@ -8,5 +8,6 @@ export const strings = {
     SIGNUP_SUCCESS: "Your account has been created. You may log in now",
     CREATE_NEW_ACCOUNT: "Create new account",
     CONNECTION_ERROR_MESSAGE: "Connection error. Check your internet connection",
-    PASSWORDS_DONT_MATCH_ERROR: "Passwords don't match"
+    PASSWORDS_DONT_MATCH_ERROR: "Passwords don't match",
+    ADD_WEIGHT_SUCCESS: "Weight added successfully",
 }

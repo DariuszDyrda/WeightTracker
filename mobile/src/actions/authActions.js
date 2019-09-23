@@ -10,12 +10,12 @@ export const login = payloads => dispatch => {
         if(res.status == 201){
           dispatch({ type: ActionTypes.LOGIN, payload: res.data });
         } else {
-          dispatch({ type: ActionTypes.LOGIN_ERROR, payload: res.data.message });
+          dispatch({ type: ActionTypes.MESSAGE, payload: res.data.message });
         }
       })
       .catch(err => {
         if(err.response.status == 401) {
-          dispatch({ type: ActionTypes.LOGIN_ERROR, payload: err.response.data.message });
+          dispatch({ type: ActionTypes.MESSAGE, payload: err.response.data.message });
         } else {
           dispatch({ type: ActionTypes.CONNECTION_ERROR })
         }
@@ -30,15 +30,15 @@ export const signup = payloads => dispatch => {
       if(res.status == 201){
         dispatch({ type: ActionTypes.SIGNUP, payload: res.data });
       } else {
-        dispatch({ type: ActionTypes.SIGNUP_ERROR, payload: res.data.message });
+        dispatch({ type: ActionTypes.MESSAGE, payload: res.data.message });
       }
     })
     .catch(err => {
       if(err.response.status == 409) {
-        dispatch({ type: ActionTypes.SIGNUP_ERROR, payload: err.response.data.message });
+        dispatch({ type: ActionTypes.MESSAGE, payload: err.response.data.message });
       } 
       if(err.response.status == 400) {
-        dispatch({ type: ActionTypes.SIGNUP_ERROR, payload: err.response.data.message[0].constraints.minLength });
+        dispatch({ type: ActionTypes.MESSAGE, payload: err.response.data.message[0].constraints.minLength });
       }
       else {
         dispatch({ type: ActionTypes.CONNECTION_ERROR })

@@ -11,6 +11,7 @@ export const API_LINKS = {
     LOGIN: 'auth/signin',
     SIGNUP: 'auth/signup',
     GET_WEIGHTS: 'weight',
+    POST_WEIGHT: 'weight',
 }
 
 Object.keys(API_LINKS).forEach(key => {
