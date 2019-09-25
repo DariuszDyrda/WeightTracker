@@ -6,16 +6,13 @@ import FormTextInput from './FormTextInput';
 import Button from './Button';
 import DatePicker from 'react-native-datepicker'
 import { addWeight } from '../actions/dataActions';
+import { getCurrentDateInISO } from '../utils/dateUtils';
 
 export default WeightAddForm = (props) => {
-  const getCurrentDate = () => {
-    const dt = new Date();
-    return (dt.getFullYear() + "-" + (dt.getMonth() + 1) + "-" + dt.getDate());
-  }
 
   const token = useSelector(state => state.auth.accessToken);
   const message = useSelector(state => state.common.message);
-  const now = getCurrentDate();
+  const now = getCurrentDateInISO();
   const [weight, setWeight] = useState(null);
   const [date, setDate] = useState(now);
   const [unit, setUnit] = useState('kilograms');

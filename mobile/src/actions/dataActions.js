@@ -33,7 +33,6 @@ export const addWeight = payload => dispatch => {
     .then(res => {
         dispatch({ type: ActionTypes.LOADING, isLoading: false });
         if(res.status == 201) {
-            console.log(res.data);
             dispatch({ type: ActionTypes.MESSAGE, payload: strings.ADD_WEIGHT_SUCCESS });
         } else {
             throw new Error("Connection error");

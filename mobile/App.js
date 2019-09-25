@@ -11,11 +11,13 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import reducers from './src/reducers/index'
+import { HistoryScreen } from './src/screens/HistoryScreen';
 
 const store = createStore(reducers, applyMiddleware(thunk));
 
 const DrawerNavigator = createDrawerNavigator({
   Home: HomeScreen,
+  History: HistoryScreen,
 }, {
   contentComponent: DrawerComponent,
 })
