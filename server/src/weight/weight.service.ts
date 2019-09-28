@@ -54,7 +54,7 @@ export class WeightService {
     }
 
     async editMeasurement(weightDto: WeightDto, id: number, user: User): Promise<Weight> {
-        const { amount, unit } = weightDto;
+        const { amount, unit, date } = weightDto;
         const weight = await this.weightRepository.findOne({ where: { id, userId: user.id } });
         if (!weight) {
             throw new NotFoundException(`Task with id: ${id} is not in the database`);
@@ -64,6 +64,9 @@ export class WeightService {
         }
         if (unit) {
             weight.unit = unit;
+        }
+        if (date) {
+            weight.date = date;
         }
         weight.save();
         return weight;
