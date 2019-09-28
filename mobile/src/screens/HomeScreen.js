@@ -11,7 +11,7 @@ function HomeScreen(props) {
   }
   return (
     <View style={styles.container}>
-      <WeightAddForm></WeightAddForm>
+      <WeightAddForm navigation={props.navigation}></WeightAddForm>
     </View>
   );
 }

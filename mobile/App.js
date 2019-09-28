@@ -34,9 +34,16 @@ const LoginNavigation = createStackNavigator({
   headerMode: 'none',
 })
 
+const EditWeightNavigation = createStackNavigator({
+  History: DrawerNavigator,
+  Edit: HomeScreen,
+}, {
+})
+
 const MainNav = createStackNavigator({
   LoginStack: LoginNavigation,
   DrawerNav: DrawerNavigation,
+  EditStack: EditWeightNavigation,
 }, {
   initialRouteName: "LoginStack",
   headerMode: 'none',

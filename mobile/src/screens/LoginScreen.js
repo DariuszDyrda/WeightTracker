@@ -24,9 +24,6 @@ const LoginScreen = (props) => {
       if(props.isLogged) {
         props.navigation.dispatch(resetAction);
       }
-      if(props.isLoading) {
-        return (<ActivityIndicator size="large" color="#0000ff" />)
-      }
       if(props.message) {
         ToastAndroid.show(props.message, ToastAndroid.SHORT);
         props.clearMessages();
@@ -45,7 +42,9 @@ const LoginScreen = (props) => {
         props.login({ username, password });
     }
 
-
+    if(props.isLoading) {
+      return (<ActivityIndicator size="large" color="#0000ff" />)
+    }
     return (
         <KeyboardAvoidingView style={styles.container} behavior="padding">
         <Image source={imageLogo} style={styles.logo} />

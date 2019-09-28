@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { View, ScrollView, Dimensions, ToastAndroid } from 'react-native';
+import { View, ScrollView, Dimensions, ToastAndroid, ActivityIndicator } from 'react-native';
 import { List } from '../components/List';
 import { CustomContributionGraph } from '../components/CustomContributionGraph';
 import { getWeights } from '../actions/dataActions';
@@ -9,42 +9,36 @@ import { NavigationEvents } from 'react-navigation';
 
 
 export const HistoryScreen = (props) => {
-
+    const isLoading = useSelector(state => state.common.isLoading);
     const token = useSelector(state => state.auth.accessToken);
-    const message = useSelector(state => state.common.message);
-    const weights = useSelector(state => state.data.weights);
+    const [weights, setWeights] = useState([]);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        if(message) {
-          ToastAndroid.show(message, ToastAndroid.SHORT);
-          dispatch({ type: ActionTypes.CLEAR_MESSAGES });
-        }
-      })
+    const handleGetWeights = () => {
+      dispatch(getWeights(token))
+        .then(res => {
+          setWeights(res.data);
+        })
+        .catch(err => {
+          ToastAndroid.show(err.response.data.message);
+        })
+    }
 
-    const commitsData = [
-        { date: '2017-01-02', count: 1 },
-        { date: '2017-01-03', count: 2 },
-        { date: '2017-01-04', count: 3 },
-        { date: '2017-01-05', count: 4 },
-        { date: '2017-01-06', count: 5 },
-        { date: '2017-01-30', count: 2 },
-        { date: '2017-01-31', count: 3 },
-        { date: '2017-03-01', count: 2 },
-        { date: '2017-04-02', count: 4 },
-        { date: '2017-03-05', count: 2 },
-        { date: '2017-02-30', count: 4 }
-      ]
+      if(isLoading) {
+        return (
+          <ActivityIndicator size="large" color="#0000ff" />
+        )
+      }
         return (
           <View>
             <NavigationEvents
-              onWillFocus={() => dispatch(getWeights(token))}
+              onWillFocus={handleGetWeights}
             />
             <ScrollView>
                 <CustomContributionGraph
                     weights={weights}
                 />
-                <List weights={weights}/>
+                <List weights={weights} navigation={props.navigation}/>
             </ScrollView>
           </View>
       )

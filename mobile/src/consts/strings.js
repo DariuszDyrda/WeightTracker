@@ -10,4 +10,5 @@ export const strings = {
     CONNECTION_ERROR_MESSAGE: "Connection error. Check your internet connection",
     PASSWORDS_DONT_MATCH_ERROR: "Passwords don't match",
     ADD_WEIGHT_SUCCESS: "Weight added successfully",
+    EDIT_WEIGHT_SUCCESS: "Weight changed succesfully",
 }

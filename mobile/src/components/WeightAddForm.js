@@ -5,33 +5,66 @@ import { View, Picker, ToastAndroid, Keyboard } from 'react-native';
 import FormTextInput from './FormTextInput';
 import Button from './Button';
 import DatePicker from 'react-native-datepicker'
-import { addWeight } from '../actions/dataActions';
+import { addWeight, editWeight } from '../actions/dataActions';
 import { getCurrentDateInISO } from '../utils/dateUtils';
+import { strings } from '../consts/strings';
 
 export default WeightAddForm = (props) => {
 
   const token = useSelector(state => state.auth.accessToken);
   const message = useSelector(state => state.common.message);
+  const isLoading = useSelector(state => state.common.isLoading);
   const now = getCurrentDateInISO();
   const [weight, setWeight] = useState(null);
   const [date, setDate] = useState(now);
   const [unit, setUnit] = useState('kilograms');
 
+  const [editId, setEditId] = useState(null);
+
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if(message) {
-      ToastAndroid.show(message, ToastAndroid.SHORT);
-      dispatch({ type: ActionTypes.CLEAR_MESSAGES });
-
+  const handleButtonPress = () => {
+    if(editId) {
+      dispatch(editWeight({token, editId, weight, unit, date}))
+        .then(res => {
+          if(res.status = 200) {
+            ToastAndroid.show(strings.EDIT_WEIGHT_SUCCESS, ToastAndroid.SHORT);
+            props.navigation.goBack();
+          }
+        })
+        .catch(err => {
+          ToastAndroid.show(message, ToastAndroid.SHORT);
+        })
     }
-  })
-
-  const handleAddButtonPress = () => {
-    dispatch(addWeight({token, weight, unit, date}));
-    setWeight(null);
-    Keyboard.dismiss();
+    else {
+      dispatch(addWeight({token, weight, unit, date}))
+        .then(res => {
+          if(res.status == 201) {
+            //setWeight(null);
+            Keyboard.dismiss();
+          }
+        })
+        .catch(err => {
+          ToastAndroid.show(message, ToastAndroid.SHORT);
+        })
+    }
   }
+
+  useEffect(() => {
+    let oldWeight;
+    try {
+      oldWeight = props.navigation.getParam('weight');
+    }
+    catch(e) {
+      
+    }
+    if(oldWeight) {
+      setWeight(oldWeight.amount.toString());
+      setUnit(oldWeight.unit);
+      setDate(oldWeight.date);
+      setEditId(oldWeight.id);
+    }
+  }, [])
 
 
     return (
@@ -71,7 +104,7 @@ export default WeightAddForm = (props) => {
           }}
           onDateChange={(date) => {setDate(date)}}
         />
-        <Button label={"Add"} onPress={handleAddButtonPress}/>
+        <Button label={"Submit"} onPress={handleButtonPress}/>
       </View>
     )
 }
