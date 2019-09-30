@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { View, ScrollView, Dimensions, ToastAndroid, ActivityIndicator } from 'react-native';
+import { View, ScrollView, Dimensions, ToastAndroid, ActivityIndicator, Text } from 'react-native';
 import { List } from '../components/List';
 import { CustomContributionGraph } from '../components/CustomContributionGraph';
 import { getWeights } from '../actions/dataActions';
@@ -8,7 +8,7 @@ import ActionTypes from '../consts/ActionTypes';
 import { NavigationEvents } from 'react-navigation';
 
 
-export const HistoryScreen = (props) => {
+const HistoryScreen = (props) => {
     const isLoading = useSelector(state => state.common.isLoading);
     const token = useSelector(state => state.auth.accessToken);
     const [weights, setWeights] = useState([]);
@@ -43,3 +43,4 @@ export const HistoryScreen = (props) => {
           </View>
       )
 }
+    export default HistoryScreen;

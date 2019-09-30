@@ -40,7 +40,6 @@ export default WeightAddForm = (props) => {
       dispatch(addWeight({token, weight, unit, date}))
         .then(res => {
           if(res.status == 201) {
-            //setWeight(null);
             Keyboard.dismiss();
           }
         })

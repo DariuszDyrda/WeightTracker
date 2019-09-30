@@ -5,7 +5,7 @@
 //   ? manifest.debuggerHost.split(`:`).shift().concat(`:3000`)
 //   : `localhost`;
 
-const apiBaseUrl = 'http://10.0.0.107:3000/';
+const apiBaseUrl = 'http://10.0.0.109:3000/';
 
 export const API_LINKS = {
     LOGIN: 'auth/signin',

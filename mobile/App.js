@@ -2,6 +2,7 @@ import React from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createStackNavigator } from 'react-navigation-stack';
+import { TouchableHighlight, Image } from 'react-native';
 import HomeScreen from './src/screens/HomeScreen';
 import DrawerComponent from './src/components/DrawerComponent';
 import LoginScreen from './src/screens/LoginScreen';
@@ -11,20 +12,55 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import reducers from './src/reducers/index'
-import { HistoryScreen } from './src/screens/HistoryScreen';
+import HistoryScreen from './src/screens/HistoryScreen';
 
 const store = createStore(reducers, applyMiddleware(thunk));
 
 const DrawerNavigator = createDrawerNavigator({
-  Home: HomeScreen,
-  History: HistoryScreen,
+  Home: {
+    screen: HomeScreen,
+    navigationOptions: ({ navigation }) => ({
+      drawerLabel: 'Home',
+    })
+  },
+  History: {
+    screen: HistoryScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: 'History',
+    })
+  },
 }, {
   contentComponent: DrawerComponent,
 })
 
 
 const DrawerNavigation = createStackNavigator({
-  Drawer: DrawerNavigator
+  Drawer: {
+    screen: DrawerNavigator,
+    navigationOptions: ({ navigation }) => ({
+      title: 'WeightTracker',
+      headerLeft: (
+      <TouchableHighlight onPress={() => navigation.toggleDrawer()}>
+        <Image
+          source={require('./src/assets/images/drawer.png')}
+        />
+      </TouchableHighlight>
+      )
+    })
+  },
+  Edit: {
+    screen: HomeScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: `Edit`,
+      headerRight: (
+      <TouchableHighlight onPress={() => alert('hey')}>
+        <Image
+          source={require('./src/assets/images/more_vert.png')}
+        />
+      </TouchableHighlight>
+    ),
+    }),
+  },
 })
 
 const LoginNavigation = createStackNavigator({
@@ -34,19 +70,12 @@ const LoginNavigation = createStackNavigator({
   headerMode: 'none',
 })
 
-const EditWeightNavigation = createStackNavigator({
-  History: DrawerNavigator,
-  Edit: HomeScreen,
-}, {
-})
-
 const MainNav = createStackNavigator({
   LoginStack: LoginNavigation,
   DrawerNav: DrawerNavigation,
-  EditStack: EditWeightNavigation,
 }, {
   initialRouteName: "LoginStack",
-  headerMode: 'none',
+  headerMode: 'none', 
 })
 
 const AppNavContainer = createAppContainer(MainNav);
