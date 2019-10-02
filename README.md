@@ -1,6 +1,6 @@
-#WeightTracker
+# WeightTracker
 
-React Native mobile app + NestJS Server
+React Native mobile app + NestJS Server<br>
 Simple CRUD app that let you track your weight.
 
 ## Getting Started
@@ -29,7 +29,7 @@ cd mobile
 npm start
 ```
 
-5. Scan QR code with mobile app on your phone.
+5. Scan QR code with Expo mobile app on your phone.
 
 
 ## Build with
