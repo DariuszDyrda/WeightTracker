@@ -5,65 +5,42 @@ import { View, Picker, ToastAndroid, Keyboard } from 'react-native';
 import FormTextInput from './FormTextInput';
 import Button from './Button';
 import DatePicker from 'react-native-datepicker'
-import { addWeight, editWeight } from '../actions/dataActions';
 import { getCurrentDateInISO } from '../utils/dateUtils';
 import { strings } from '../consts/strings';
 
 export default WeightAddForm = (props) => {
 
-  const token = useSelector(state => state.auth.accessToken);
-  const message = useSelector(state => state.common.message);
-  const isLoading = useSelector(state => state.common.isLoading);
   const now = getCurrentDateInISO();
   const [weight, setWeight] = useState(null);
   const [date, setDate] = useState(now);
   const [unit, setUnit] = useState('kilograms');
 
-  const [editId, setEditId] = useState(null);
 
   const dispatch = useDispatch();
 
-  const handleButtonPress = () => {
-    if(editId) {
-      dispatch(editWeight({token, editId, weight, unit, date}))
-        .then(res => {
-          if(res.status = 200) {
-            ToastAndroid.show(strings.EDIT_WEIGHT_SUCCESS, ToastAndroid.SHORT);
-            props.navigation.goBack();
-          }
-        })
-        .catch(err => {
-          ToastAndroid.show(message, ToastAndroid.SHORT);
-        })
-    }
-    else {
-      dispatch(addWeight({token, weight, unit, date}))
-        .then(res => {
-          if(res.status == 201) {
-            Keyboard.dismiss();
-          }
-        })
-        .catch(err => {
-          ToastAndroid.show(message, ToastAndroid.SHORT);
-        })
-    }
-  }
-
   useEffect(() => {
-    let oldWeight;
-    try {
-      oldWeight = props.navigation.getParam('weight');
+    if(props.data) {
+      setWeight(props.data.weight)
+      setUnit(props.data.unit);
+      setDate(props.data.date);
     }
-    catch(e) {
-      
-    }
-    if(oldWeight) {
-      setWeight(oldWeight.amount.toString());
-      setUnit(oldWeight.unit);
-      setDate(oldWeight.date);
-      setEditId(oldWeight.id);
-    }
-  }, [])
+  }, [props.data])
+
+  const handleButtonPress = () => {
+    props.onButtonPress({date, weight, unit})
+      .then(res => {
+        if(res == 'ADD_SUCCESS') {
+          setWeight(null);
+        }
+        else {
+          props.navigation.goBack();
+        }
+      }
+      )
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
 
     return (

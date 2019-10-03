@@ -4,6 +4,7 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createStackNavigator } from 'react-navigation-stack';
 import { TouchableHighlight, Image } from 'react-native';
 import HomeScreen from './src/screens/HomeScreen';
+import EditScreen from './src/screens/EditScreen';
 import DrawerComponent from './src/components/DrawerComponent';
 import LoginScreen from './src/screens/LoginScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
@@ -49,17 +50,7 @@ const DrawerNavigation = createStackNavigator({
     })
   },
   Edit: {
-    screen: HomeScreen,
-    navigationOptions: ({ navigation }) => ({
-      title: `Edit`,
-      headerRight: (
-      <TouchableHighlight onPress={() => alert('hey')}>
-        <Image
-          source={require('./src/assets/images/more_vert.png')}
-        />
-      </TouchableHighlight>
-    ),
-    }),
+    screen: EditScreen,
   },
 })
 

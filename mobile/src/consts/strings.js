@@ -11,4 +11,5 @@ export const strings = {
     PASSWORDS_DONT_MATCH_ERROR: "Passwords don't match",
     ADD_WEIGHT_SUCCESS: "Weight added successfully",
     EDIT_WEIGHT_SUCCESS: "Weight changed succesfully",
+    DELETE_WEIGHT_SUCCESS: "Weight deleted succesfully",
 }

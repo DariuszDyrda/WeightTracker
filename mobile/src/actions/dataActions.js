@@ -52,7 +52,26 @@ export const editWeight = payload => dispatch => {
         dispatch({ type: ActionTypes.LOADING, payload: false });
         if(res.status == 200) {
             dispatch({ type: ActionTypes.MESSAGE, payload: strings.EDIT_WEIGHT_SUCCESS });
-            return res.data;
+            return res;
+        } else {
+            throw new Error("Connection error");
+        }
+    })
+}
+
+export const deleteWeight = payload => dispatch => {
+    dispatch({ type: ActionTypes.LOADING, payload: true });
+    const { editId, token } = payload;
+    return axios.delete(API_LINKS.POST_WEIGHT + `/${editId}`, {
+        headers: {
+            "Authorization": `Bearer ${token}`,
+        }
+    })
+    .then(res => {
+        dispatch({ type: ActionTypes.LOADING, payload: false });
+        if(res.status == 200) {
+            dispatch({ type: ActionTypes.MESSAGE, payload: strings.DELETE_WEIGHT_SUCCESS });
+            return res;
         } else {
             throw new Error("Connection error");
         }
