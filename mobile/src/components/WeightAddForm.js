@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ActionTypes from '../consts/ActionTypes';
 import { useDispatch, useSelector } from 'react-redux';
-import { View, Picker, ToastAndroid, Keyboard } from 'react-native';
+import { StyleSheet, View, Picker, ToastAndroid, Keyboard } from 'react-native';
 import FormTextInput from './FormTextInput';
 import Button from './Button';
 import DatePicker from 'react-native-datepicker'
@@ -44,12 +44,12 @@ export default WeightAddForm = (props) => {
 
 
     return (
-      <View>
-        <View>
-          <FormTextInput keyboardType={"number-pad"} value={weight} onChangeText={(text) => setWeight(text)}/>
+      <View style={styles.container}>
+        <View style={styles.form}>
+          <FormTextInput style={styles.input} keyboardType={"number-pad"} placeholder={strings.ADD_WEIGHT_PLACEHOLDER} value={weight} onChangeText={(text) => setWeight(text)}/>
           <Picker
             selectedValue={unit}
-            style={{height: 50}}
+            style={styles.picker}
             onValueChange={(itemValue) =>
               setUnit(itemValue)
             }>
@@ -66,6 +66,7 @@ export default WeightAddForm = (props) => {
           maxDate={now}
           confirmBtnText="Confirm"
           cancelBtnText="Cancel"
+          style={styles.datePicker}
           customStyles={{
             dateIcon: {
               position: 'absolute',
@@ -80,7 +81,35 @@ export default WeightAddForm = (props) => {
           }}
           onDateChange={(date) => {setDate(date)}}
         />
-        <Button label={"Submit"} onPress={handleButtonPress}/>
+        <Button style={styles.button} label={"Submit"} onPress={handleButtonPress}/>
       </View>
     )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: "stretch",
+    justifyContent: "flex-start",
+    width: "80%"
+  },
+  form: {
+    flexDirection: 'row',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  input: {
+    flex: 1,
+  },
+  picker: {
+    flex: 1,
+    height: 50,
+  },
+  datePicker: {
+    marginBottom: 20,
+    alignSelf: "center",
+  },
+  button: {
+    width: '80%',
+    marginBottom: 20,
+  }
+});

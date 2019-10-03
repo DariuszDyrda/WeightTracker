@@ -2,6 +2,7 @@ export const strings = {
     USERNAME_PLACEHOLDER: "Username",
     PASSWORD_PLACEHOLDER: "Password",
     CONFIRM_PASSWORD_PLACEHOLDER: "Confirm password",
+    ADD_WEIGHT_PLACEHOLDER: 'Weight',
     LOGIN: "LOGIN",
     SIGNUP: "SIGN UP",
     LOGOUT: "LOGOUT",

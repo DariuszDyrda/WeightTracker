@@ -26,7 +26,7 @@ const DrawerComponent = (props) => {
       <ScrollView>
         <DrawerNavigatorItems {...props}/>
       </ScrollView>
-      <Text>Logged is as { username }</Text>
+      <Text>Logged in as { username }</Text>
       <Button
         label={strings.LOGOUT}
         onPress={handleLogoutButtonPress}
