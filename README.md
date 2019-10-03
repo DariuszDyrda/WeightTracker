@@ -52,3 +52,8 @@ npm start
 * Redux and Redux Thunk
 * React-Navigation
 * Axios
+
+## TODO
+- [ ] Add possibility to delete weight entity
+- [ ] Improve the UI
+- [ ] Write some tests
