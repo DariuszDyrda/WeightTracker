@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ActionTypes from '../consts/ActionTypes';
-import { useDispatch, useSelector } from 'react-redux';
-import { StyleSheet, View, Picker, ToastAndroid, Keyboard } from 'react-native';
+import { StyleSheet, View, Picker } from 'react-native';
 import FormTextInput from './FormTextInput';
 import Button from './Button';
 import DatePicker from 'react-native-datepicker'
@@ -14,9 +12,6 @@ export default WeightAddForm = (props) => {
   const [weight, setWeight] = useState(null);
   const [date, setDate] = useState(now);
   const [unit, setUnit] = useState('kilograms');
-
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if(props.data) {

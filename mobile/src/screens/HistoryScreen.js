@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { View, ScrollView, Dimensions, ToastAndroid, ActivityIndicator, Text } from 'react-native';
+import { View, ScrollView, ToastAndroid, ActivityIndicator } from 'react-native';
 import { List } from '../components/List';
 import { CustomContributionGraph } from '../components/CustomContributionGraph';
 import { getWeights } from '../actions/dataActions';

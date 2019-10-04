@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { StyleSheet, Text, View, Dimensions, ActivityIndicator, Button, Image, ToastAndroid } from 'react-native';
+import { StyleSheet, View, ActivityIndicator, Button, ToastAndroid } from 'react-native';
 import { editWeight, deleteWeight } from '../actions/dataActions'
 import WeightAddForm from '../components/WeightAddForm';
 import { getCurrentDateInISO } from '../utils/dateUtils';
 import { strings } from '../consts/strings';
+
 function EditScreen(props) {
     const token = useSelector(state => state.auth.accessToken);
     const isLoading = useSelector(state => state.common.isLoading);

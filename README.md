@@ -54,6 +54,6 @@ npm start
 * Axios
 
 ## TODO
-- [ ] Add possibility to delete weight entity
+- [x] Add possibility to delete weight entity
 - [ ] Improve the UI
 - [ ] Write some tests

@@ -1,4 +1,4 @@
-import {Container, Content, Card, CardItem, Text } from 'native-base';
+import { Content, Card, CardItem, Text } from 'native-base';
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Dimensions, ActivityIndicator, ToastAndroid, Keyboard } from 'react-native';
+import React from 'react';
+import { StyleSheet, View, ActivityIndicator, ToastAndroid, Keyboard } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { addWeight } from '../actions/dataActions';
 import WeightAddForm from '../components/WeightAddForm';

@@ -1,10 +1,3 @@
-// import { Constants } from 'expo';
-// const { manifest } = Constants;
-
-// const api = (typeof manifest.packagerOpts === `object`) && manifest.packagerOpts.dev
-//   ? manifest.debuggerHost.split(`:`).shift().concat(`:3000`)
-//   : `localhost`;
-
 const apiBaseUrl = 'http://10.0.0.106:3000/';
 
 export const API_LINKS = {
