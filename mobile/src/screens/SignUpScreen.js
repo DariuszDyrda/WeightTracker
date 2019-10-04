@@ -1,31 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, StyleSheet, KeyboardAvoidingView, ToastAndroid } from 'react-native';
+import { View, Image, StyleSheet, KeyboardAvoidingView, ToastAndroid, ActivityIndicator } from 'react-native';
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
 import imageLogo from "../assets/images/signin.png";
 import colors from "../consts/colors";
 import { strings } from '../consts/strings';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { signup } from '../actions/authActions'
-import { clearMessages } from '../actions/commonActions';
 
 const SignUpScreen = (props) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    useEffect(() => {
-      if(props.message) {
-        ToastAndroid.show(props.message, ToastAndroid.SHORT);
-        props.clearMessages();
-      }
-      if(props.isSignUpSuccessful) {
-        props.navigation.navigate("Login");
-      }
-      if(props.isLoading) {
-        return (<ActivityIndicator size="large" color="#0000ff" />)
-      }
-    })
+
+    const isLoading = useSelector(state => state.common.isLoading);
+    const dispatch = useDispatch();
 
     handleUsernameChange = (username) => {
         setUsername(username);
@@ -41,12 +30,33 @@ const SignUpScreen = (props) => {
 
     handleButtonPress = () => {
       if(password == confirmPassword) {
-        props.signup({ username, password });
+        dispatch(signup({ username, password }))
+          .then(res => {
+            if(res.status == 201) {
+              ToastAndroid.show(strings.SIGNUP_SUCCESS, ToastAndroid.SHORT);
+              props.navigation.navigate("Login");
+            }
+            else if(res.response.status == 400) {
+              ToastAndroid.show(res.response.data.message[0].constraints.minLength, ToastAndroid.SHORT);
+            }
+            else if(res.response.status == 409) {
+              ToastAndroid.show(res.response.data.message, ToastAndroid.SHORT);
+            }
+            else {
+              ToastAndroid.show(strings.CONNECTION_ERROR_MESSAGE, ToastAndroid.SHORT);
+            }
+          })
+          .catch(err => {
+            ToastAndroid.show(strings.CONNECTION_ERROR_MESSAGE, ToastAndroid.SHORT);
+          });
       } else {
         ToastAndroid.show(strings.PASSWORDS_DONT_MATCH_ERROR, ToastAndroid.SHORT);
       }
     }
 
+    if(isLoading) {
+      return (<ActivityIndicator size="large" color="#0000ff" />)
+    }
     return (
         <KeyboardAvoidingView style={styles.container} behavior="padding">
         <Image source={imageLogo} style={styles.logo} />
@@ -77,19 +87,7 @@ const SignUpScreen = (props) => {
     )
 }
 
-const mapStateToProps = (state) => {
-  const { isSignUpSuccessful, isLoading, message } = state.common;
-  return { isLoading, message, isSignUpSuccessful };
-}
-
-const mapDispatchToProps = dispatch => (
-  bindActionCreators({
-    signup,
-    clearMessages,
-  }, dispatch)
-)
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpScreen)
+export default SignUpScreen;
 
 //STYLES
 const styles = StyleSheet.create({

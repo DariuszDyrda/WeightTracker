@@ -6,14 +6,16 @@ import imageLogo from "../assets/images/logo.png";
 import colors from "../consts/colors";
 import { strings } from '../consts/strings';
 import { StackActions, NavigationActions } from 'react-navigation';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { login } from '../actions/authActions'
-import { clearMessages } from '../actions/commonActions';
 
 const LoginScreen = (props) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+
+    const isLogged  = useSelector(state => state.auth.isLogged);
+    const isLoading = useSelector(state => state.common.isLoading);
+    const dispatch = useDispatch();
 
     const resetAction = StackActions.reset({
         index: 0,
@@ -21,12 +23,8 @@ const LoginScreen = (props) => {
     });
 
     useEffect(() => {
-      if(props.isLogged) {
+      if(isLogged) {
         props.navigation.dispatch(resetAction);
-      }
-      if(props.message) {
-        ToastAndroid.show(props.message, ToastAndroid.SHORT);
-        props.clearMessages();
       }
     })
 
@@ -39,10 +37,24 @@ const LoginScreen = (props) => {
     }
 
     handleLoginPress = () => {
-        props.login({ username, password });
+        dispatch(login({ username, password }))
+          .then(res => {
+            if(res.status == 201) {
+              ToastAndroid.show(strings.LOGIN_SUCCESS, ToastAndroid.SHORT);
+            }
+            else if(res.response.status == 401) {
+              ToastAndroid.show(res.response.data.message, ToastAndroid.SHORT);
+            }
+            else {
+              ToastAndroid.show(strings.CONNECTION_ERROR_MESSAGE, ToastAndroid.SHORT);
+            }
+          })
+          .catch(err => {
+            ToastAndroid.show(strings.CONNECTION_ERROR_MESSAGE, ToastAndroid.SHORT);
+          })
     }
 
-    if(props.isLoading) {
+    if(isLoading) {
       return (<ActivityIndicator size="large" color="#0000ff" />)
     }
     return (
@@ -73,20 +85,7 @@ const LoginScreen = (props) => {
     )
 }
 
-const mapStateToProps = (state) => {
-  const { isLogged } = state.auth;
-  const { isLoading, message } = state.common;
-  return { isLogged, isLoading, message };
-}
-
-const mapDispatchToProps = dispatch => (
-  bindActionCreators({
-    login,
-    clearMessages,
-  }, dispatch)
-)
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+export default LoginScreen;
 
 // STYLES
 const styles = StyleSheet.create({

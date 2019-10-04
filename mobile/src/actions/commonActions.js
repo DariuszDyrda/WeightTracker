@@ -6,9 +6,3 @@ export const loading = isLoading => (
         payload: isLoading,
     }
 )
-
-export const clearMessages = () => (
-    {
-        type: ActionTypes.CLEAR_MESSAGES,
-    }
-)
