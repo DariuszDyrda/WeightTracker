@@ -32,7 +32,6 @@ export const addWeight = payload => dispatch => {
     .then(res => {
         dispatch({ type: ActionTypes.LOADING, payload: false });
         if(res.status == 201) {
-            dispatch({ type: ActionTypes.MESSAGE, payload: strings.ADD_WEIGHT_SUCCESS });
             return res;
         } else {
             throw new Error("Connection error");
@@ -51,7 +50,6 @@ export const editWeight = payload => dispatch => {
     .then(res => {
         dispatch({ type: ActionTypes.LOADING, payload: false });
         if(res.status == 200) {
-            dispatch({ type: ActionTypes.MESSAGE, payload: strings.EDIT_WEIGHT_SUCCESS });
             return res;
         } else {
             throw new Error("Connection error");
@@ -70,7 +68,6 @@ export const deleteWeight = payload => dispatch => {
     .then(res => {
         dispatch({ type: ActionTypes.LOADING, payload: false });
         if(res.status == 200) {
-            dispatch({ type: ActionTypes.MESSAGE, payload: strings.DELETE_WEIGHT_SUCCESS });
             return res;
         } else {
             throw new Error("Connection error");

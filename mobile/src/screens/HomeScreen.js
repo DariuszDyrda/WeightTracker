@@ -24,7 +24,7 @@ function HomeScreen(props) {
         })
   }
 
-  if(props.isLoading) {
+  if(isLoading) {
     return (
       <ActivityIndicator size="large" color="#0000ff" />
     );
