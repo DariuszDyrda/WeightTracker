@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { StyleSheet, View, ActivityIndicator, Button, ToastAndroid } from 'react-native';
 import { editWeight, deleteWeight } from '../actions/dataActions'
+import { loading } from '../actions/commonActions';
 import WeightAddForm from '../components/WeightAddForm';
 import { getCurrentDateInISO } from '../utils/dateUtils';
 import { strings } from '../consts/strings';
@@ -27,7 +28,8 @@ function EditScreen(props) {
                 }
             })
             .catch(err => {
-                ToastAndroid.show("Error", ToastAndroid.SHORT);
+              dispatch(loading(false));
+              ToastAndroid.show(strings.CONNECTION_ERROR_MESSAGE, ToastAndroid.SHORT);
             })
     }
 
@@ -41,7 +43,8 @@ function EditScreen(props) {
           }
         })
         .catch(err => {
-          ToastAndroid.show('error', ToastAndroid.SHORT);
+          dispatch(loading(false));
+          ToastAndroid.show(strings.CONNECTION_ERROR_MESSAGE, ToastAndroid.SHORT);
         })
     }
   }

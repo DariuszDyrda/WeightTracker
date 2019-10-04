@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, ActivityIndicator, ToastAndroid, Keyboard } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { addWeight } from '../actions/dataActions';
+import { loading } from '../actions/commonActions';
 import WeightAddForm from '../components/WeightAddForm';
 import { strings } from '../consts/strings'
 
@@ -20,7 +21,8 @@ function HomeScreen(props) {
           }
         })
         .catch(err => {
-          ToastAndroid.show('error', ToastAndroid.SHORT);
+          dispatch(loading(false));
+          ToastAndroid.show(strings.CONNECTION_ERROR_MESSAGE, ToastAndroid.SHORT);
         })
   }
 

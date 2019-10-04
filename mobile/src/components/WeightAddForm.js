@@ -25,17 +25,11 @@ export default WeightAddForm = (props) => {
     if(weight) {
       props.onButtonPress({date, weight, unit})
       .then(res => {
-        if(res == 'ADD_SUCCESS') {
-          setWeight(null);
-        }
-        else {
+        if(res != 'ADD_SUCCESS') {
           props.navigation.goBack();
         }
       }
       )
-      .catch(err => {
-        console.log(err);
-      });
     }
   }
 

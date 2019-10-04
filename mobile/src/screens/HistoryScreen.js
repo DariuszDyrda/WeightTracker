@@ -4,7 +4,7 @@ import { View, ScrollView, ToastAndroid, ActivityIndicator } from 'react-native'
 import { List } from '../components/List';
 import { CustomContributionGraph } from '../components/CustomContributionGraph';
 import { getWeights } from '../actions/dataActions';
-import ActionTypes from '../consts/ActionTypes';
+import { loading } from '../actions/commonActions';
 import { NavigationEvents } from 'react-navigation';
 
 
@@ -20,6 +20,7 @@ const HistoryScreen = (props) => {
           setWeights(res.data);
         })
         .catch(err => {
+          dispatch(loading(false));
           ToastAndroid.show(err.response.data.message);
         })
     }
