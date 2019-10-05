@@ -3,6 +3,9 @@
 React Native mobile app + NestJS Server<br>
 Simple CRUD app that let you track your weight.
 
+## Screenshots
+![Login screen](mobile/assets/screenshots/login_screen.png?raw=true "Login screen")
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
