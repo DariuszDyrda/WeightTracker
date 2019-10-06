@@ -1,4 +1,4 @@
-const apiBaseUrl = 'http://10.0.0.106:3000/';
+const API_BASE_URL = 'http://10.0.0.106:3000/';
 
 export const API_LINKS = {
     LOGIN: 'auth/signin',
@@ -8,5 +8,5 @@ export const API_LINKS = {
 }
 
 Object.keys(API_LINKS).forEach(key => {
-    API_LINKS[key] = apiBaseUrl + API_LINKS[key];
+    API_LINKS[key] = API_BASE_URL + API_LINKS[key];
 })

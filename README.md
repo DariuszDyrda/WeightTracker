@@ -25,14 +25,14 @@ These instructions will get you a copy of the project up and running on your loc
 cd server
 npm start
 ```
-
-4. Run mobile app
+4. Modify /mobile/src/config/api.js for API_BASE_URL (tip: use ifconfig to get your local IP address)
+5. Run mobile app
 ```
 cd mobile
 npm start
 ```
 
-5. Scan QR code with Expo mobile app on your phone.
+6. Scan QR code with Expo mobile app on your phone.
 
 
 ## Build with
